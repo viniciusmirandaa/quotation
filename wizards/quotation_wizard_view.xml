@@ -1,0 +1,23 @@
+<odoo>
+
+    <record id="quotation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Quotation</field>
+        <field name="res_model">quotation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id='quotation_wizard_form' model='ir.ui.view'>
+        <field name="name">Quotation Wizard Form</field>
+        <field name="model">quotation.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <footer>
+                    <button string="Evaluate" name='update_media' type="object"
+                            attrs="{'invisible': [('evaluation', 'in', [False, 'not_selected'])]}"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
