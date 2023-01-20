@@ -7,14 +7,43 @@
         <field name="target">new</field>
     </record>
 
+    <menuitem
+            id="menu_quotation"
+            name="Quotation"
+            parent="sale.menu_sale_quotations"
+            action="quotation_wizard_action"
+    />
+
+
     <record id='quotation_wizard_form' model='ir.ui.view'>
         <field name="name">Quotation Wizard Form</field>
         <field name="model">quotation.wizard</field>
         <field name="arch" type="xml">
             <form>
+                <group>
+                    <field name="customer_selection" widget="radio"/>
+                </group>
+                <group name="customer_selection_scenario" attrs="{'invisible': [('customer_selection', '=', 'route')]}">
+                    <group>
+                        <field name="partner_id"
+                               attrs="{'invisible': [('customer_selection', '=', False)]}"/>
+                    </group>
+                    <group>
+                        <field name="route_id"
+                               attrs="{'invisible': [('customer_selection', '=', False)]}"/>
+                    </group>
+                </group>
+                <group name="route_selection_scenario" attrs="{'invisible': [('customer_selection', '=', 'customer')]}">
+                    <group>
+                        <field name="route_id"
+                               attrs="{'invisible': [('customer_selection', '=', False)]}"/>
+                    </group>
+                    <group>
+                        <field name="partner_id"
+                               attrs="{'invisible': [('customer_selection', '=', False)]}"/>
+                    </group>
+                </group>
                 <footer>
-                    <button string="Evaluate" name='update_media' type="object"
-                            attrs="{'invisible': [('evaluation', 'in', [False, 'not_selected'])]}"/>
                 </footer>
             </form>
         </field>

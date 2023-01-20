@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="quotation_category">
+        <field name="name">Quotation Category</field>
+        <field name="description">Quotation module access.</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="quotation_user_group" model="res.groups">
+        <field name="name">Quotation User</field>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="category_id" ref="quotation_category"/>
+    </record>
+
+</odoo>
