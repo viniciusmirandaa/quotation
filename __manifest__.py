@@ -7,7 +7,7 @@
     'website': "https://vidroshima.com.br/",
     'category': 'Uncategorized',
     'version': '14.0.1.0.0',
-    'depends': ['base'],
+    'depends': ['base', 'sale_management', 'stock', 'routes'],
     'data': [
         "security/groups.xml",
         "security/ir.model.access.csv",

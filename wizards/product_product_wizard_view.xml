@@ -1,23 +1,17 @@
 <odoo>
 
-    <record id="quotation_wizard_action" model="ir.actions.act_window">
-        <field name="name">Quotation</field>
-        <field name="res_model">quotation.wizard</field>
+    <record id="product_product_wizard_action" model="ir.actions.act_window">
+        <field name="name">Product Information</field>
+        <field name="res_model">product.product.wizard</field>
         <field name="view_mode">form</field>
-        <field name="target">new</field>
+        <field name="target">current</field>
     </record>
 
-    <menuitem
-            id="menu_quotation"
-            name="Quotation"
-            parent="sale.menu_sale_quotations"
-            action="quotation_wizard_action"
-    />
-
-
-    <record id='quotation_wizard_form' model='ir.ui.view'>
-        <field name="name">Quotation Wizard Form</field>
-        <field name="model">quotation.wizard</field>
+    <record id='product_product_wizard_form' model='ir.ui.view'>
+        <field name="name">Product Info Form</field>
+        <field name="model">
+            C:\Users\superglass-ti\Desktop\odoo-14\custom\quotation\wizards\product_product_wizard_view.xml
+        </field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -30,8 +24,6 @@
                             <field name="partner_id"
                                    attrs="{'invisible': [('customer_selection', '=', False)]}"
                                    options="{'no_create': True, 'no_edit': True}"/>
-                        </group>
-                        <group>
                             <field name="route_id"
                                    attrs="{'invisible': [('partner_id', '=', False)]}"
                                    options="{'no_create': True, 'no_edit': True}"/>
@@ -43,23 +35,10 @@
                             <field name="route_id"
                                    attrs="{'invisible': [('customer_selection', '=', False)]}"
                                    options="{'no_create': True, 'no_edit': True}"/>
-                        </group>
-                        <group>
                             <field name="partner_id"
                                    attrs="{'invisible': [('route_id', '=', False)]}"
                                    options="{'no_create': True, 'no_edit': True}"/>
                         </group>
-                    </group>
-                    <group attrs="{'invisible': [('product_product_id', '=', False)]}">
-                        <label for="product_product_id"/>
-                        <div>
-                            <field name="product_product_id" style="width: 70%"
-                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
-                            <button name="visualize_product" type="object"
-                                    class="btn-sm btn-link mb4 fa fa-search oe_edit_only"
-                                    aria-label="Visualizar Produto"
-                                    title="Visualizar Produto"/>
-                        </div>
                     </group>
                     <notebook>
                         <page name="quotation" string="Quotation">
