@@ -1,4 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_quotation_wizard_user,access.quotation_wizard_user,model_quotation_wizard,quotation_user_group,1,1,1,1
 access_quotation_product_line_wizard_user,access.quotation_product_line_wizard_user,model_quotation_product_line_wizard,quotation_user_group,1,1,1,1
-access_product_product_wizard_user,access.product_product_wizard_user,model_product_product_wizard,quotation_user_group,1,1,1,1

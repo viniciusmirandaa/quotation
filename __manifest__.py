@@ -12,6 +12,7 @@
         "security/groups.xml",
         "security/ir.model.access.csv",
         "wizards/quotation_wizard_view.xml",
+        "views/inventory_group_access_view.xml"
     ],
     'installable': True,
     'application': True,
