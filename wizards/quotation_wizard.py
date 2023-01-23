@@ -8,8 +8,18 @@ class QuotationWizard(models.TransientModel):
 
     get_product_domain = fields.Boolean()
 
+    is_product_available = fields.Boolean()
+
     product_product_ids = fields.Many2many(
         comodel_name="product.product"
+    )
+
+    status = fields.Selection(
+        selection=[
+            ('draft', 'Draft'),
+            ('active', 'Active')
+        ],
+        default='draft'
     )
 
     # primary variables
@@ -52,9 +62,11 @@ class QuotationWizard(models.TransientModel):
     @api.onchange('get_product_domain')
     def _onchange_get_product_domain(self):
         if self.customer_selection and self.get_product_domain:
-            return {'domain': {
-                'product_product_id': [('id', 'in', self.product_product_ids.ids)]
-            }}
+            if self.product_product_ids:
+                self.is_product_available = True
+                return {'domain': {
+                    'product_product_id': [('id', 'in', self.product_product_ids.ids)]
+                }}
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
@@ -83,7 +95,20 @@ class QuotationWizard(models.TransientModel):
             }}
 
     def visualize_product(self):
-        return
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_id': self.product_product_id.id,
+            'res_model': 'product.product',
+            'views': [
+                [
+                    self.env.ref("product.product_normal_form_view").id,
+                    'form']
+            ],
+            # 'context': ctx,
+            'target': 'current'
+        }
 
     def search_product(self):
         str_search = str(self.search_products)
@@ -95,6 +120,7 @@ class QuotationWizard(models.TransientModel):
 
         ctx = dict()
         ctx.update({
+            'default_status': 'active',
             'default_customer_selection': self.customer_selection,
             'default_route_id': self.route_id.id,
             'default_partner_id': self.partner_id.id,
@@ -115,12 +141,3 @@ class QuotationWizard(models.TransientModel):
             'context': ctx,
             'target': 'new'
         }
-
-# {
-#     'res_model': 'product.product.wizard',
-#     'res_id': self.product_template_id.id,
-#     'type': 'ir.actions.act_window',
-#     'view_mode': 'form',
-#     'view_id': self.env.ref('quotation.product_template_only_form_view').id,
-#     "target": "current"
-# }
