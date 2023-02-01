@@ -36,6 +36,7 @@
                         </group>
                         <group>
                             <field name="route_id"
+                                   force_save="1"
                                    attrs="{'invisible': [('partner_id', '=', False)]}"
                                    options="{'no_create': True, 'no_edit': True}"/>
                         </group>
@@ -44,6 +45,7 @@
                            attrs="{'invisible': [('customer_selection', '=', 'customer')]}">
                         <group>
                             <field name="route_id"
+                                   force_save="1"
                                    attrs="{'invisible': [('customer_selection', '=', False)]}"
                                    options="{'no_create': True, 'no_edit': True}"/>
                         </group>
@@ -73,7 +75,8 @@
                                         <button name="visualize_product" type="object"
                                                 class="btn-sm btn-link mb4 fa fa-search oe_edit_only"
                                                 aria-label="Visualizar Produto"
-                                                title="Visualizar Produto"/>
+                                                title="Visualizar Produto"
+                                                attrs="{'invisible': [('product_product_id', '=', False)]}"/>
                                     </div>
                                 </group>
                                 <group>
@@ -84,18 +87,47 @@
                                 </group>
                             </form>
                         </page>
-                        <page name="quotation" string="Quotation">
+                        <page name="quotation" string="Quotation"
+                              attrs="{'invisible': [('quotation_product_accessories', '=', False)]}">
                             <form>
                                 <field name="quotation_product_line_ids"
                                        colspan="2"
                                        nolabel="1">
                                     <tree>
-                                        <field name="attribute_id"/>
-                                        <field name="alternative_product_product_ids"/>
-                                        <field name="accessories_product_product_ids"/>
+                                        <field name="name"/>
+                                        <field name="product_template_attribute_value_ids"/>
+                                        <field name="qty_available"/>
                                     </tree>
                                 </field>
                             </form>
+                            <notebook>
+                                <page name="quotation_product_alternatives" string="Alternatives">
+                                    <form>
+                                        <field name="quotation_product_alternatives"
+                                               colspan="2"
+                                               nolabel="1">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="product_template_attribute_value_ids"/>
+                                                <field name="qty_available"/>
+                                            </tree>
+                                        </field>
+                                    </form>
+                                </page>
+                                <page name="quotation_accessories_products" string="Accessories">
+                                    <form>
+                                        <field name="quotation_product_accessories"
+                                               colspan="2"
+                                               nolabel="1">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="product_template_attribute_value_ids"/>
+                                                <field name="qty_available"/>
+                                            </tree>
+                                        </field>
+                                    </form>
+                                </page>
+                            </notebook>
                         </page>
                     </notebook>
                     <footer>

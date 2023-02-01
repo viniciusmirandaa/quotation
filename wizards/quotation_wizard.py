@@ -49,9 +49,19 @@ class QuotationWizard(models.TransientModel):
         comodel_name="product.product",
     )
 
-    quotation_product_line_ids = fields.One2many(
-        comodel_name="quotation.product.line.wizard",
-        inverse_name="quotation_id"
+    quotation_product_line_ids = fields.Many2many(
+        comodel_name="product.product",
+        relation="quotation_products_product_product_rel"
+    )
+
+    quotation_product_accessories = fields.Many2many(
+        comodel_name="product.product",
+        relation="quotation_accessories_product_product_rel"
+    )
+
+    quotation_product_alternatives = fields.Many2many(
+        comodel_name="product.product",
+        relation="quotation_alternatives_product_product_rel"
     )
 
     search_products = fields.Char(
@@ -70,7 +80,7 @@ class QuotationWizard(models.TransientModel):
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
-        if self.customer_selection == 'customer' and self.partner_id:
+        if self.customer_selection == 'customer' and self.partner_id and self.partner_id.route_id.id:
             self.route_id = self.partner_id.route_id.id
 
     @api.onchange('route_id')
@@ -95,6 +105,10 @@ class QuotationWizard(models.TransientModel):
             }}
 
     def visualize_product(self):
+        ctx = dict()
+        ctx.update({
+            'default_quotation_wizard_id': ctx.get('active_id'),
+        })
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
@@ -104,10 +118,11 @@ class QuotationWizard(models.TransientModel):
             'views': [
                 [
                     self.env.ref("product.product_normal_form_view").id,
-                    'form']
+                    'form'
+                ]
             ],
-            # 'context': ctx,
-            'target': 'current'
+            'target': 'current',
+            'context': ctx
         }
 
     def search_product(self):
@@ -128,6 +143,7 @@ class QuotationWizard(models.TransientModel):
             'default_get_product_domain': True,
             'default_product_product_ids': self.env['product.product'].search(search_dict['domain']).ids,
         })
+
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
